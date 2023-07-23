@@ -24,4 +24,42 @@ To get started with the ekyc_flutter package, follow these simple steps:
 ```
 flutter pub add inapp_flutter_kyc
 ```
+### Android
+Add this before `<application></application>` in your android/app/src/main/AndroidManifest.xml
+```
+<uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA" />
+```
+in <activity> add this 
+```
+android:requestLegacyExternalStorage="true"
+```
+in your android/app/build.gradle make minSdkVersion 23
+```
+defaultConfig {
+        minSdkVersion 23
+    }
+```
 
+### Face match
+For running face match go to project_directory/face_match_with_flask and run this (for ubuntu)
+```
+python3 face_match.py
+```
+for windows
+```
+python face_match.py
+```
+you will see something like this in your console 
+```
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.3.50:5000
+```
+copy the last address and pass it in EkycServices().runFaceMatch function along with the two imagepath (selfie image and id image) like this
+
+```
+await EkycServices().runFaceMatch("http://10.0.3.50:5000", selfieImage?.path, imageAndText?.imagePath);
+```
