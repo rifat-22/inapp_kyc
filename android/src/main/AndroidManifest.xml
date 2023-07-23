@@ -1,0 +1,24 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="id.kakzaki.liveness_cam">
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <application>
+        <meta-data android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="face" />
+        <activity
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:name="id.kakzaki.face_detection.InitActivity"
+            android:exported="false" />
+        <activity
+            android:name="id.kakzaki.face_detection.LivenessDetectionActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+            android:name="id.kakzaki.core.base.BaseCameraActivity"
+            android:exported="false" />
+    </application>
+</manifest>

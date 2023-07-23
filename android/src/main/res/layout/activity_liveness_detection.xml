@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+    tools:context="id.kakzaki.face_detection.LivenessDetectionActivity">
+
+
+    <id.kakzaki.core.GraphicOverlay
+        android:id="@+id/graphic_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <ToggleButton
+        android:id="@+id/tg_mute"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:textOff=""
+        android:textOn=""
+        android:visibility="gone"
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/selector_mute"
+        />
+
+
+
+    <ImageView
+        android:id="@+id/iv_face"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/frame_face"
+        android:layout_marginTop="@dimen/margin_large"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_face"
+        app:layout_constraintTop_toTopOf="@id/iv_face"
+        app:layout_constraintEnd_toEndOf="@id/iv_face"
+        app:layout_constraintStart_toStartOf="@id/iv_face"
+        android:background="@drawable/border_dash"/>
+    <View
+        android:id="@+id/view_top"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        android:alpha="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/iv_face"/>
+    <View
+        android:id="@+id/view_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        android:alpha="0.5"
+        app:layout_constraintTop_toBottomOf="@id/iv_face"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        android:alpha="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/iv_face"
+        app:layout_constraintTop_toBottomOf="@id/view_top"
+        app:layout_constraintBottom_toTopOf="@id/view_bottom"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        android:alpha="0.5"
+        app:layout_constraintStart_toEndOf="@id/iv_face"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_top"
+        app:layout_constraintBottom_toTopOf="@id/view_bottom"/>
+
+    <TextView
+        android:id="@+id/tv_instruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please position your face in the center of the frame"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:layout_margin="16dp"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tv_timer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="48sp"
+        tools:text="21"
+        android:padding="8dp"
+        android:textColor="#FF2B2B"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_face"
+        app:layout_constraintBottom_toTopOf="@id/tv_instruction"/>
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_xsmall"
+        android:src="@drawable/ic_arrow_back_fill"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Return"
+        android:textColor="@color/white"
+        android:layout_marginStart="@dimen/margin_xsmall"
+        app:layout_constraintTop_toTopOf="@id/iv_back"
+        app:layout_constraintBottom_toBottomOf="@id/iv_back"
+        app:layout_constraintStart_toEndOf="@id/iv_back"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

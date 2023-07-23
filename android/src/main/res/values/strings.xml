@@ -1,0 +1,10 @@
+<resources>
+    <string name="liveness_please_blink">Blink your eyes</string>
+    <string name="liveness_please_open_mouth">Please open then close your mouth</string>
+    <string name="liveness_please_shake_head"><![CDATA[Please look left and right]]></string>
+    <string name="liveness_please_smile">Please Smile\n\nBe Ready to take a selfie</string>
+    <string name="lbl_hold_still_instruction">Hold your face right in the frame</string>
+    <string name="lbl_put_face_to_the_frame">Please position your face in the center of the frame</string>
+    <string name="lbl_too_far">Too far</string>
+    <string name="lbl_too_close">Too close</string>
+</resources>
