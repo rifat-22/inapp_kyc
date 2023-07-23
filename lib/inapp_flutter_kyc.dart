@@ -52,7 +52,7 @@ class EkycServices {
 
     try {
       //Make sure to await the call to detectEdge.
-      bool success = await EdgeDetection.detectEdge(imagePath,
+      await EdgeDetection.detectEdge(imagePath,
         canUseGallery: true,
         androidScanTitle: 'Scanning',
         // use custom localizations for android

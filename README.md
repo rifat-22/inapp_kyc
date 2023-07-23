@@ -32,7 +32,7 @@ Add this before `<application></application>` in your android/app/src/main/Andro
         android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
 ```
-in <activity> add this 
+in `<activity>` add this 
 ```
 android:requestLegacyExternalStorage="true"
 ```
