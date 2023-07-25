@@ -42,9 +42,16 @@ defaultConfig {
         minSdkVersion 23
     }
 ```
+in android/build.gradle make sure the kotlin version to 1.8.0
+```
+buildscript {
+    ext.kotlin_version = '1.8.0'
+}
+```
 
 ### Face match
-For running face match go to project_directory/face_match_with_flask and run this (for ubuntu)
+For running face match go to [https://drive.google.com/drive/folders/1Po7VxJsUcH_W0XOenUHzg_IDu1s3_do8?usp=sharing](https://drive.google.com/drive/folders/1Po7VxJsUcH_W0XOenUHzg_IDu1s3_do8?usp=sharing)
+Download the folder and in the folder directory run this (for ubuntu)
 ```
 python3 face_match.py
 ```
