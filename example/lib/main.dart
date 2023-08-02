@@ -34,10 +34,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   File? selfieImage;
-  ImageAndText? imageAndText;
+  ExtractedDataFromId? extractedDataFromId;
   bool? isMatchFace;
   bool isloading = false;
   bool faceMatchButtonPressed = false;
+  Map<String, bool> keyWordData = {
+    'Name' : false,
+    'Date of Birth' : true,
+    'NID No' : false
+  };
 
 
 
@@ -85,11 +90,11 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 10,),
             TextButton(
               onPressed: () async {
-                imageAndText = await EkycServices().openImageScanner();
-                if(imageAndText?.extractedText != null) {
+                extractedDataFromId = await EkycServices().openImageScanner(keyWordData);
+                if(extractedDataFromId?.extractedText != null) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ShowScannedText(scannedText: imageAndText!.extractedText!)),
+                    MaterialPageRoute(builder: (context) => ShowScannedText(scannedText: extractedDataFromId!.extractedText!, keyNvalue: extractedDataFromId?.keywordNvalue,)),
                   );
                 }
               },
@@ -114,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         duration: Duration(seconds: 3),
                       ),
                     );
-                  } else if(imageAndText?.imagePath == null) {
+                  } else if(extractedDataFromId?.imagePath == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('There is no face detected in Id card'),
@@ -127,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       faceMatchButtonPressed = true;
                     });
 
-                    isMatchFace = await EkycServices().runFaceMatch("http://10.0.3.50:5000", selfieImage?.path, imageAndText?.imagePath);
+                    isMatchFace = await EkycServices().runFaceMatch("http://10.0.3.50:5000", selfieImage?.path, extractedDataFromId?.imagePath);
                     setState(() {
                       isloading = false;
                     });
@@ -271,13 +276,40 @@ class ShowImage extends StatelessWidget{
     );
   }
 }
+class FormFieldData {
+  final String label;
+  String value;
+
+  FormFieldData({required this.label, required this.value});
+}
 
 
-class ShowScannedText extends StatelessWidget {
+class ShowScannedText extends StatefulWidget {
   String scannedText;
+  Map<String, dynamic>? keyNvalue;
 
-  ShowScannedText({required this.scannedText});
+  ShowScannedText({required this.scannedText, this.keyNvalue});
 
+  @override
+  State<ShowScannedText> createState() => _ShowScannedTextState();
+}
+
+class _ShowScannedTextState extends State<ShowScannedText> {
+  List<FormFieldData> formFields = [];
+  @override
+  void initState() {
+
+
+    // TODO: implement initState
+    super.initState();
+    if(widget.keyNvalue != null) {
+
+      widget.keyNvalue?.forEach((key, value) {
+        formFields.add(FormFieldData(label: key, value: value.toString()));
+      });
+    }
+    print(widget.keyNvalue);
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -285,13 +317,43 @@ class ShowScannedText extends StatelessWidget {
       appBar: AppBar(
         title: Text("Sccaned Text"),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(scannedText),
-        ),
+      body: Column(mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Visibility(
+            visible: widget.keyNvalue != null,
+            child: Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: formFields.length,
+                itemBuilder: (context, index) {
+                  FormFieldData fieldData = formFields[index];
+                  return Padding(
+                    padding: EdgeInsets.all(16),
+                    child: TextFormField(
+                      initialValue: fieldData.value,
+                      decoration: InputDecoration(labelText: fieldData.label),
+                      // Implement any validation or other form handling logic here
+                      onChanged: (value) {
+                        // Update the value in the list whenever the form field changes
+                        formFields[index].value = value;
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          Text("Full Extracted Text", style: TextStyle(fontSize: 20),),
+          SizedBox(height: 20,),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: Text(widget.scannedText),
+          ),
+
+        ],
       ),
     );
   }
-
 }

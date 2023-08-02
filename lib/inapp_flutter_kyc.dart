@@ -11,10 +11,11 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'liveness_cam.dart';
 
-class ImageAndText{
+class ExtractedDataFromId{
   String? imagePath;
   String? extractedText;
-  ImageAndText({this.imagePath, this.extractedText});
+  Map<String, dynamic>? keywordNvalue;
+  ExtractedDataFromId({this.imagePath, this.extractedText, this.keywordNvalue});
 }
 
 
@@ -30,8 +31,8 @@ class EkycServices {
     return result;
   }
 
-  Future<ImageAndText?> openImageScanner() async {
-    ImageAndText? imageText = new ImageAndText();
+  Future<ExtractedDataFromId?> openImageScanner(Map<String, bool> keyWordData) async {
+    ExtractedDataFromId? extractedDataFromId = new ExtractedDataFromId();
     bool isCameraGranted = await Permission.camera
         .request()
         .isGranted;
@@ -42,7 +43,7 @@ class EkycServices {
 
     if (!isCameraGranted) {
       // Have not permission to camera
-      return imageText;
+      return extractedDataFromId;
     }
 
     String imagePath = join((await getApplicationSupportDirectory()).path,
@@ -68,12 +69,28 @@ class EkycServices {
     final inputImage = InputImage.fromFilePath(imagePath);
     final visionText = await textRecognizer.processImage(inputImage);
 
+    Map<String, dynamic> extractedData = {};
+    for (String key in keyWordData.keys) {
+      RegExp regMatch;
+      if(keyWordData[key] == true) {
+        regMatch = RegExp(
+            r'' + RegExp.escape(key) + r'\s+(.*)', caseSensitive: false, );
+      } else {
+        regMatch = RegExp(r'' + RegExp.escape(key) + r'(?:\s+|\n)(.*)', caseSensitive: false);
+      }
 
-    imageText =
-        ImageAndText(imagePath: imagePath, extractedText: visionText.text);
+      RegExpMatch? matchedKeyword = regMatch.firstMatch(visionText.text);
+      if (matchedKeyword != null) {
+        extractedData[key] = matchedKeyword.group(1)!.trim();
+      }
+    }
+
+    print(extractedData);
+
+    extractedDataFromId = ExtractedDataFromId(imagePath: imagePath, extractedText: visionText.text, keywordNvalue: extractedData);
 
 
-    return imageText;
+    return extractedDataFromId;
   }
 
   Future<bool?> runFaceMatch(String url, String? selfieImagePath,

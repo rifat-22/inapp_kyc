@@ -49,7 +49,29 @@ buildscript {
 }
 ```
 
-### Face match
+### ID Scanning
+For ID Card Scanning, two cases have considered, where the keyword and value are inline (image 1) and the keyword and the value are in the next line.
+![Image 1](./images/inline_id.png){: width="400"}
+![Image 2](./images/nextLine_id.png){: width="400"}
+
+in EkycServices().openImageScanner() function, pass the keyword name and a boolean
+-> if the keyword and the value are inline pass true
+-> if the keyword and the value are not inline pass false
+For example 
+```
+Map<String, bool> keyWordData = {
+    'Name' : false,
+    'Date of Birth' : true,
+    'NID No' : false
+  };
+```
+Now pass this keyWordData to EkycServices().openImageScanner() 
+```
+ ExtractedDataFromId? extractedDataFromId;
+ extractedDataFromId = await EkycServices().openImageScanner(keyWordData);
+```
+The `ExtractedDataFromId` also contains `extractedText`. If the ocr text doesn't get parsed from these cases, you can also manipulate the text from the `extractedText`
+### Face Matching:
 For running face match go to [https://drive.google.com/drive/folders/1Po7VxJsUcH_W0XOenUHzg_IDu1s3_do8?usp=sharing](https://drive.google.com/drive/folders/1Po7VxJsUcH_W0XOenUHzg_IDu1s3_do8?usp=sharing)
 Download the folder and in the folder directory run this (for ubuntu)
 ```
