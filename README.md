@@ -51,8 +51,7 @@ buildscript {
 
 ### ID Scanning
 For ID Card Scanning, two cases have considered, where the keyword and value are inline (image 1) and the keyword and the value are in the next line.
-![Image 1](./images/inline_id.png){: width="400"}
-![Image 2](./images/nextLine_id.png){: width="400"}
+![Image 1](./images/inline_id.png) ![Image 2](./images/nextLine_id.png)
 
 in EkycServices().openImageScanner() function, pass the keyword name and a boolean
 -> if the keyword and the value are inline pass true

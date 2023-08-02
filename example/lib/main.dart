@@ -334,9 +334,7 @@ class _ShowScannedTextState extends State<ShowScannedText> {
                     child: TextFormField(
                       initialValue: fieldData.value,
                       decoration: InputDecoration(labelText: fieldData.label),
-                      // Implement any validation or other form handling logic here
                       onChanged: (value) {
-                        // Update the value in the list whenever the form field changes
                         formFields[index].value = value;
                       },
                     ),
