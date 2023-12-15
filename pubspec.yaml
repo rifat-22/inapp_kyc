@@ -1,6 +1,6 @@
 name: inapp_flutter_kyc
 description: inapp_flutter_kyc package is a powerful and easy-to-use plugin that brings essential KYC functionalities to your Flutter applications.
-version: 1.1.4
+version: 1.1.5
 homepage:
 repository: https://github.com/rifat-22/inapp_kyc
 
@@ -16,7 +16,7 @@ dependencies:
   http: ^0.13.6
   path: ^1.8.2
   path_provider: ^2.0.11
-  permission_handler: ^10.0.0
+  permission_handler: ^11.1.0
 
 
 dev_dependencies:

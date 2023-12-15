@@ -1,6 +1,5 @@
 # inapp_flutter_kyc
-The inapp_flutter_kyc package is a powerful and easy-to-use plugin that brings essential Know Your Customer (KYC) functionalities to your Flutter applications. Designed to streamline user identity verification and enhance security, this package offers a comprehensive set of features for performing KYC checks seamlessly within your app.
-It has now Android support only, the iOS supported version will be published soon.  
+The inapp_flutter_kyc package is a powerful and easy-to-use plugin that brings essential Know Your Customer (KYC) functionalities to your Flutter applications.
 ## Features
 
 ### Liveness Detection:
