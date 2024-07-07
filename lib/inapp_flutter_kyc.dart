@@ -18,8 +18,9 @@ class ExtractedDataFromId {
   Map<String, dynamic>? keywordNvalue;
   ExtractedDataFromId({this.imagePath, this.extractedText, this.keywordNvalue});
 }
-
+/// A service class for eKYC operations.
 class EkycServices {
+  /// Detects liveness in the provided image.
   final _livenessCam = LivenessCam();
   File? result;
 
@@ -30,7 +31,7 @@ class EkycServices {
     }
     return result;
   }
-
+  /// Opens the image scanner.
   Future<ExtractedDataFromId?> openImageScanner(
       Map<String, bool> keyWordData) async {
     ExtractedDataFromId? extractedDataFromId = new ExtractedDataFromId();
