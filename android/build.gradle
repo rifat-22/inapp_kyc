@@ -44,7 +44,36 @@ android {
     defaultConfig {
         minSdkVersion 23
     }
+    buildTypes {
+        release {
+            // some other code
+
+            aaptOptions {
+                ignoreAssetsPattern '!mlkit_pose:!mlkit_label_default_model:'
+            }
+        }
+        debug {
+            // some other code
+
+            aaptOptions {
+                ignoreAssetsPattern '!mlkit_pose:!mlkit_label_default_model:'
+            }
+        }
+    }
+
+    packagingOptions {
+        exclude 'lib/**/libtranslate_jni.so'
+        exclude 'lib/**/libdigitalink.so'
+        exclude 'lib/**/libxeno_native.so'
+        exclude 'lib/**/libmlkitcommonpipeline.so'
+        exclude 'lib/**/libbarhopper_v2.so'
+        exclude 'lib/**/libclassifier_jni.so'
+        exclude 'lib/**/libface_detector_v2_jni.so'
+        exclude 'lib/**/libtensorflowlite_jni.so'
+        exclude 'lib/**/liblanguage_id_jni.so'
+    }
 }
+
 
 ext.camerax_version = "1.1.0-beta01"
 dependencies {

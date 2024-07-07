@@ -30,22 +30,18 @@ class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
+
 class _MyHomePageState extends State<MyHomePage> {
-
-
   File? selfieImage;
   ExtractedDataFromId? extractedDataFromId;
   bool? isMatchFace;
   bool isloading = false;
   bool faceMatchButtonPressed = false;
   Map<String, bool> keyWordData = {
-    'Name' : false,
-    'Date of Birth' : true,
-    'NID No' : false
+    'Name': false,
+    'Date of Birth': true,
+    'NID No': false
   };
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextButton(
-              onPressed: ()  {
+              onPressed: () {
                 EkycServices().livenessDetct().then((result) {
                   if (result != null) {
                     print("File path: $result");
@@ -66,7 +62,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       selfieImage = result;
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ShowImage(selfieImage: selfieImage)),
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ShowImage(selfieImage: selfieImage)),
                       );
                     });
                   } else {
@@ -77,8 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
               style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
                 padding: const EdgeInsets.all(16.0),
-                primary: Colors.white,
                 backgroundColor: Colors.blue,
                 elevation: 9.0,
                 textStyle: const TextStyle(
@@ -87,20 +85,27 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               child: Text("Liveness Detection"),
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             TextButton(
               onPressed: () async {
-                extractedDataFromId = await EkycServices().openImageScanner(keyWordData);
-                if(extractedDataFromId?.extractedText != null) {
+                extractedDataFromId =
+                    await EkycServices().openImageScanner(keyWordData);
+                if (extractedDataFromId?.extractedText != null) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ShowScannedText(scannedText: extractedDataFromId!.extractedText!, keyNvalue: extractedDataFromId?.keywordNvalue,)),
+                    MaterialPageRoute(
+                        builder: (context) => ShowScannedText(
+                              scannedText: extractedDataFromId!.extractedText!,
+                              keyNvalue: extractedDataFromId?.keywordNvalue,
+                            )),
                   );
                 }
               },
               style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
                 padding: const EdgeInsets.all(16.0),
-                primary: Colors.white,
                 backgroundColor: Colors.blue,
                 elevation: 9.0,
                 textStyle: const TextStyle(
@@ -109,17 +114,20 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               child: Text("Scan your Id"),
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             TextButton(
                 onPressed: () async {
-                  if(selfieImage == null) {
+                  if (selfieImage == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Capture a selfie first using liveness detection'),
+                        content: Text(
+                            'Capture a selfie first using liveness detection'),
                         duration: Duration(seconds: 3),
                       ),
                     );
-                  } else if(extractedDataFromId?.imagePath == null) {
+                  } else if (extractedDataFromId?.imagePath == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('There is no face detected in Id card'),
@@ -132,24 +140,25 @@ class _MyHomePageState extends State<MyHomePage> {
                       faceMatchButtonPressed = true;
                     });
 
-                    isMatchFace = await EkycServices().runFaceMatch("http://10.0.3.50:5000", selfieImage?.path, extractedDataFromId?.imagePath);
+                    isMatchFace = await EkycServices().runFaceMatch(
+                        "http://10.255.187.82:5000",
+                        selfieImage?.path,
+                        extractedDataFromId?.imagePath);
                     setState(() {
                       isloading = false;
                     });
                   }
                 },
                 style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
                   padding: const EdgeInsets.all(16.0),
-                  primary: Colors.white,
                   backgroundColor: Colors.blue,
                   elevation: 9.0,
                   textStyle: const TextStyle(
                     fontSize: 20,
                   ),
                 ),
-                child: Text("Face match with Id")
-            ),
-
+                child: Text("Face match with Id")),
             Visibility(
               visible: faceMatchButtonPressed,
               child: Container(
@@ -174,28 +183,28 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           (isloading == true)
                               ? SizedBox(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor:
-                              AlwaysStoppedAnimation(Colors.white),
-                            ),
-                            height: 50.0,
-                            width: 50.0,
-                          )
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor:
+                                        AlwaysStoppedAnimation(Colors.white),
+                                  ),
+                                  height: 50.0,
+                                  width: 50.0,
+                                )
                               : (isMatchFace == true)
-                              ? Icon(
-                            Icons.check_circle_sharp,
-                            size: 40,
-                            color: Color(0xFF9677eca),
-                          )
-                              : Transform.rotate(
-                            angle: 45 * pi / 180,
-                            child: Icon(
-                              Icons.add_circle,
-                              size: 40,
-                              color: Colors.red,
-                            ),
-                          ),
+                                  ? Icon(
+                                      Icons.check_circle_sharp,
+                                      size: 40,
+                                      color: Color(0xFF9677eca),
+                                    )
+                                  : Transform.rotate(
+                                      angle: 45 * pi / 180,
+                                      child: Icon(
+                                        Icons.add_circle,
+                                        size: 40,
+                                        color: Colors.red,
+                                      ),
+                                    ),
                           SizedBox(
                             width: 5,
                           ),
@@ -204,10 +213,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                 (isloading == true)
                                     ? '  Running face match...'
                                     : (isMatchFace == true)
-                                    ? "Successful!!! ID Face matches with Selfie"
-                                    : (isMatchFace == false)
-                                    ? "Something is wrong! Please try again! "
-                                    : 'NID Face does not match with Selfie',
+                                        ? "Successful!!! ID Face matches with Selfie"
+                                        : (isMatchFace == false)
+                                            ? "Something is wrong! Please try again! "
+                                            : 'NID Face does not match with Selfie',
                                 maxLines: 3,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
@@ -235,12 +244,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class ShowImage extends StatelessWidget{
-
-
+class ShowImage extends StatelessWidget {
   File? selfieImage;
   ShowImage({this.selfieImage});
-
 
   @override
   Widget build(BuildContext context) {
@@ -253,15 +259,16 @@ class ShowImage extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.file(selfieImage!),
-
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
               style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
                 padding: const EdgeInsets.all(16.0),
-                primary: Colors.white,
                 backgroundColor: Colors.blue,
                 elevation: 9.0,
                 textStyle: const TextStyle(
@@ -276,13 +283,13 @@ class ShowImage extends StatelessWidget{
     );
   }
 }
+
 class FormFieldData {
   final String label;
   String value;
 
   FormFieldData({required this.label, required this.value});
 }
-
 
 class ShowScannedText extends StatefulWidget {
   String scannedText;
@@ -298,18 +305,16 @@ class _ShowScannedTextState extends State<ShowScannedText> {
   List<FormFieldData> formFields = [];
   @override
   void initState() {
-
-
     // TODO: implement initState
     super.initState();
-    if(widget.keyNvalue != null) {
-
+    if (widget.keyNvalue != null) {
       widget.keyNvalue?.forEach((key, value) {
         formFields.add(FormFieldData(label: key, value: value.toString()));
       });
     }
     print(widget.keyNvalue);
   }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -317,7 +322,8 @@ class _ShowScannedTextState extends State<ShowScannedText> {
       appBar: AppBar(
         title: Text("Sccaned Text"),
       ),
-      body: Column(mainAxisSize: MainAxisSize.min,
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -343,13 +349,17 @@ class _ShowScannedTextState extends State<ShowScannedText> {
               ),
             ),
           ),
-          Text("Full Extracted Text", style: TextStyle(fontSize: 20),),
-          SizedBox(height: 20,),
+          Text(
+            "Full Extracted Text",
+            style: TextStyle(fontSize: 20),
+          ),
+          SizedBox(
+            height: 20,
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
             child: Text(widget.scannedText),
           ),
-
         ],
       ),
     );

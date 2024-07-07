@@ -1,4 +1,5 @@
 library inapp_flutter_kyc;
+
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -11,13 +12,12 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'liveness_cam.dart';
 
-class ExtractedDataFromId{
+class ExtractedDataFromId {
   String? imagePath;
   String? extractedText;
   Map<String, dynamic>? keywordNvalue;
   ExtractedDataFromId({this.imagePath, this.extractedText, this.keywordNvalue});
 }
-
 
 class EkycServices {
   final _livenessCam = LivenessCam();
@@ -31,11 +31,10 @@ class EkycServices {
     return result;
   }
 
-  Future<ExtractedDataFromId?> openImageScanner(Map<String, bool> keyWordData) async {
+  Future<ExtractedDataFromId?> openImageScanner(
+      Map<String, bool> keyWordData) async {
     ExtractedDataFromId? extractedDataFromId = new ExtractedDataFromId();
-    bool isCameraGranted = await Permission.camera
-        .request()
-        .isGranted;
+    bool isCameraGranted = await Permission.camera.request().isGranted;
     if (!isCameraGranted) {
       isCameraGranted =
           await Permission.camera.request() == PermissionStatus.granted;
@@ -47,13 +46,12 @@ class EkycServices {
     }
 
     String imagePath = join((await getApplicationSupportDirectory()).path,
-        "${(DateTime
-            .now()
-            .millisecondsSinceEpoch / 1000).round()}.jpeg");
+        "${(DateTime.now().millisecondsSinceEpoch / 1000).round()}.jpeg");
 
     try {
       //Make sure to await the call to detectEdge.
-      await EdgeDetection.detectEdge(imagePath,
+      await EdgeDetection.detectEdge(
+        imagePath,
         canUseGallery: true,
         androidScanTitle: 'Scanning',
         // use custom localizations for android
@@ -72,11 +70,14 @@ class EkycServices {
     Map<String, dynamic> extractedData = {};
     for (String key in keyWordData.keys) {
       RegExp regMatch;
-      if(keyWordData[key] == true) {
+      if (keyWordData[key] == true) {
         regMatch = RegExp(
-            r'' + RegExp.escape(key) + r'\s+(.*)', caseSensitive: false, );
+          r'' + RegExp.escape(key) + r'\s+(.*)',
+          caseSensitive: false,
+        );
       } else {
-        regMatch = RegExp(r'' + RegExp.escape(key) + r'(?:\s+|\n)(.*)', caseSensitive: false);
+        regMatch = RegExp(r'' + RegExp.escape(key) + r'(?:\s+|\n)(.*)',
+            caseSensitive: false);
       }
 
       RegExpMatch? matchedKeyword = regMatch.firstMatch(visionText.text);
@@ -87,14 +88,16 @@ class EkycServices {
 
     print(extractedData);
 
-    extractedDataFromId = ExtractedDataFromId(imagePath: imagePath, extractedText: visionText.text, keywordNvalue: extractedData);
-
+    extractedDataFromId = ExtractedDataFromId(
+        imagePath: imagePath,
+        extractedText: visionText.text,
+        keywordNvalue: extractedData);
 
     return extractedDataFromId;
   }
 
-  Future<bool?> runFaceMatch(String url, String? selfieImagePath,
-      String? scannedImagePath) async {
+  Future<bool?> runFaceMatch(
+      String url, String? selfieImagePath, String? scannedImagePath) async {
     print(selfieImagePath);
     print(scannedImagePath);
 
@@ -103,8 +106,8 @@ class EkycServices {
     var uri = Uri.parse(url + "/face-match");
     var request = http.MultipartRequest('POST', uri);
 
-    request.files.add(
-        await http.MultipartFile.fromPath('image1', selfieImagePath!));
+    request.files
+        .add(await http.MultipartFile.fromPath('image1', selfieImagePath!));
     request.files
         .add(await http.MultipartFile.fromPath('image2', scannedImagePath!));
 
@@ -132,9 +135,4 @@ class EkycServices {
 
     return _ismatchedWithSelfie;
   }
-
-
 }
-
-
-

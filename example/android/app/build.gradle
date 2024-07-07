@@ -55,11 +55,37 @@ android {
 
     buildTypes {
         release {
+
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
+            aaptOptions {
+                ignoreAssetsPattern '!mlkit_pose:!mlkit_label_default_model:'
+            }
+        }
+
+        debug {
+            signingConfig signingConfigs.debug
+            aaptOptions {
+                ignoreAssetsPattern '!mlkit_pose:'
+            }
         }
     }
+
+    packagingOptions {
+        exclude 'lib/**/libtranslate_jni.so'
+        exclude 'lib/**/libdigitalink.so'
+        exclude 'lib/**/libxeno_native.so'
+        exclude 'lib/**/libmlkitcommonpipeline.so'
+        exclude 'lib/**/libbarhopper_v2.so'
+        exclude 'lib/**/libclassifier_jni.so'
+        exclude 'lib/**/libface_detector_v2_jni.so'
+        exclude 'lib/**/libtensorflowlite_jni.so'
+        exclude 'lib/**/liblanguage_id_jni.so'
+    }
+
 }
 
 flutter {
@@ -67,5 +93,8 @@ flutter {
 }
 
 dependencies {
+    implementation 'com.google.mlkit:playstore-dynamic-feature-support:16.0.0-beta2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.google.mlkit:text-recognition:16.0.0'
+
 }

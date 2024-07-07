@@ -89,7 +89,7 @@ you will see something like this in your console
  * Running on http://127.0.0.1:5000
  * Running on http://10.0.3.50:5000
 ```
-copy the last address and pass it in EkycServices().runFaceMatch function along with the two imagepath (selfie image and id image) like this
+copy the last address(http://10.0.3.50:5000) and pass it in EkycServices().runFaceMatch function along with the two imagepath (selfie image and id image) like this
 
 ```
 await EkycServices().runFaceMatch("http://10.0.3.50:5000", selfieImage?.path, imageAndText?.imagePath);

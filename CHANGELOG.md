@@ -2,6 +2,6 @@
 
 * initial release.
 
-## 1.1.5
+## 1.1.7
 
 * resolve dependencies
